@@ -80,30 +80,43 @@ function mainMenu() {
     });
 }
 
+// View All Deparments Function
 function viewDepartments() {
-  pool.query("SELECT * FROM department", (err, res) => {
+  pool.query('SELECT * FROM department', (err, res) => {
     if (err) {
       console.error("Error executing query", err.message);
       return mainMenu();
     }
-    console.log(res.rows);
+    console.table(res.rows);
     mainMenu();
   });
 }
 
+// View All Roles Departments
 function viewRoles() {
-    pool.query("SELECT * FROM role", (err, res) => {
+    pool.query('SELECT * FROM role', (err, res) => {
         if (err) {
             console.error("Error executing query", err.message);
             return mainMenu();
         }
-        console.log(res.rows);
+        console.table(res.rows);
         mainMenu();
-    })
+    });
 }
 
-function viewEmployees() {}
+// View All Employees Function
+function viewEmployees() {
+    pool.query('SELECT * FROM employee', (err, res) => {
+        if (err) {
+            console.error("Error executing query", err.message);
+            return mainMenu();
+        }
+        console.table(res.rows);
+        mainMenu();
+    });
+}
 
+// Add a Department function
 function addDepartment() {}
 
 function addRole() {}
