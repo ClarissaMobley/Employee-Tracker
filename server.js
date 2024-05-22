@@ -22,3 +22,7 @@ pool.connect((err) => {
     }
     console.log('Connected to employees_db');
 });
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+})
