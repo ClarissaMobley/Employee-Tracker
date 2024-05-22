@@ -91,7 +91,16 @@ function viewDepartments() {
   });
 }
 
-function viewRoles() {}
+function viewRoles() {
+    pool.query("SELECT * FROM role", (err, res) => {
+        if (err) {
+            console.error("Error executing query", err.message);
+            return mainMenu();
+        }
+        console.log(res.rows);
+        mainMenu();
+    })
+}
 
 function viewEmployees() {}
 
