@@ -145,29 +145,38 @@ function addRole() {
       {
         name: "title",
         type: "input",
-        message: "Enter a title for new role.",
+        message: "Enter a title for new role:",
       },
       {
         name: "salary",
         type: "input",
-        message: "Enter a salary for new role.",
+        message: "Enter a salary for new role:",
       },
       {
         name: "department_id",
         type: "input",
-        message: "Enter the department ID.",
+        message: "Enter the department ID:",
       },
     ])
     .then((answer) => {
       const psql =
-        "INSERT INTO role (title, salary, department_id) VALUES ($1)";
-      const values = [answer.title, answer.salary, answer.department_id];
+        "INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)";
+      const values = [
+        answer.title,
+        parseFloat(answer.salary),
+        parseInt(answer.department_id),
+      ];
 
       pool.query(psql, values, (err, res) => {
         if (err) {
-            console.error('Error executing query', err.message);
-        } else console.log(`New role ${answer.title}, ${answer.salary}, ${answer.department_id} added successfully`)
-      })
+          console.error("Error executing query", err.message);
+        } else {
+          console.log(
+            `New role ${answer.title}, ${answer.salary}, ${answer.department_id} added successfully`
+          );
+        }
+        mainMenu();
+      });
     });
 }
 
