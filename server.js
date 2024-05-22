@@ -81,7 +81,7 @@ function mainMenu() {
 
 // View All Deparments Function
 function viewDepartments() {
-  pool.query('SELECT department_name LEFT JOIN role ON department_id ORDER BY departmentid ASC', (err, res) => {
+  pool.query("SELECT * FROM department", (err, res) => {
     if (err) {
       console.error("Error executing query", err.message);
       return mainMenu();
@@ -93,42 +93,66 @@ function viewDepartments() {
 
 // View All Roles Departments
 function viewRoles() {
-    pool.query('SELECT * FROM role', (err, res) => {
-        if (err) {
-            console.error("Error executing query", err.message);
-            return mainMenu();
-        }
-        console.table(res.rows);
-        mainMenu();
-    });
+  pool.query("SELECT * FROM role", (err, res) => {
+    if (err) {
+      console.error("Error executing query", err.message);
+      return mainMenu();
+    }
+    console.table(res.rows);
+    mainMenu();
+  });
 }
 
 // View All Employees Function
 function viewEmployees() {
-    pool.query('SELECT * FROM employee', (err, res) => {
-        if (err) {
-            console.error("Error executing query", err.message);
-            return mainMenu();
-        }
-        console.table(res.rows);
-        mainMenu();
-    });
+  pool.query("SELECT * FROM employee", (err, res) => {
+    if (err) {
+      console.error("Error executing query", err.message);
+      return mainMenu();
+    }
+    console.table(res.rows);
+    mainMenu();
+  });
 }
 
 // Add a Department function
 function addDepartment() {
-    inquirer
+  inquirer
     .prompt({
-        name: "newDepartment",
-        type: "input",
-        message: "Enter the new department name"
+      name: "newDepartment",
+      type: "input",
+      message: "Enter the new department name",
     })
     .then((answer) => {
-        pool.query
-    })
+      const psql = "INSERT INTO department (name) VALUES ($1)";
+      const values = [answer.newDepartment];
+
+      pool.query(psql, values, (err, res) => {
+        if (err) {
+          console.error("Error executing query", err.message);
+        } else {
+          console.log(`Department ${answer.newDepartment} added successfully.`);
+        }
+        mainMenu();
+      });
+    });
 }
 
-function addRole() {}
+// Add a Role function
+function addRole() {
+  inquirer.prompt({
+    name: "tile",
+    type: "input",
+    message: "Enter a title for new role.",
+  }{
+    name: "salary",
+    type: "input",
+    message: "Enter a salary for new role."
+  })
+  .then((answer) => {
+    const psql = "INSERT INTO role (name)"
+  })
+}
 
 function addEmployee() {}
 
