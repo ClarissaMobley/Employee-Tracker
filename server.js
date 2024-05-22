@@ -1,7 +1,7 @@
 const express = require("express");
 const inquirer = require("inquirer");
 const { Pool } = require("pg");
-require('dotenv').config();
+require("dotenv").config();
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -43,7 +43,7 @@ function mainMenu() {
         "Add a Role",
         "Add An Employee",
         "Update An Employee Role",
-        "Quit"
+        "Quit",
       ],
     })
     .then((answer) => {
@@ -52,61 +52,56 @@ function mainMenu() {
           viewDepartments();
           break;
         case "View All Roles":
-            viewRoles();
-            break;
+          viewRoles();
+          break;
         case "View All Employees":
-            viewEmployees();
-            break;
+          viewEmployees();
+          break;
         case "Add a Department":
-            addDepartment();
-            break;
+          addDepartment();
+          break;
         case "Add a Role":
-            addRole();
-            break;
+          addRole();
+          break;
         case "Add An Employee":
-            addEmployee();
-            break;
+          addEmployee();
+          break;
         case "Update An Employee Role":
-            updateEmployee();
-            break;
+          updateEmployee();
+          break;
         case "Quit":
-            console.log("Bye!");
-            pool.exit();
-            break;
+          console.log("Bye!");
+          pool.exit();
+          break;
         default:
-            console.log('Invalid');
-            mainMenu();
+          console.log("Invalid");
+          mainMenu();
       }
     });
 }
 
 function viewDepartments() {
-
+  pool.query("SELECT * FROM department", (err, res) => {
+    if (err) {
+      console.error("Error executing query", err.message);
+      return mainMenu();
+    }
+    console.log(res.rows);
+    mainMenu();
+  });
 }
 
-function viewRoles() {
+function viewRoles() {}
 
-}
+function viewEmployees() {}
 
-function viewEmployees() {
+function addDepartment() {}
 
-}
+function addRole() {}
 
-function addDepartment() {
+function addEmployee() {}
 
-}
-
-function addRole() {
-
-}
-
-function addEmployee() {
-
-}
-
-function updateEmployee(){
-
-}
+function updateEmployee() {}
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
