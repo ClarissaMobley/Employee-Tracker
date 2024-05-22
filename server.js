@@ -10,6 +10,7 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// Create connection pool
 const pool = new Pool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -48,7 +49,7 @@ function mainMenu() {
     .then((answer) => {
       switch (answer.menu) {
         case "View All Departments":
-          viewDeparments();
+          viewDepartments();
           break;
         case "View All Roles":
             viewRoles();
@@ -77,6 +78,34 @@ function mainMenu() {
             mainMenu();
       }
     });
+}
+
+function viewDepartments() {
+
+}
+
+function viewRoles() {
+
+}
+
+function viewEmployees() {
+
+}
+
+function addDepartment() {
+
+}
+
+function addRole() {
+
+}
+
+function addEmployee() {
+
+}
+
+function updateEmployee(){
+
 }
 
 app.listen(PORT, () => {
