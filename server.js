@@ -8,14 +8,17 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const pool = new Pool(
-  {
-    user: "",
-    password: "",
-    host: "local host",
-    database: "employees_db",
-  },
-  console.log("Connected to the employees_db")
-);
+const pool = new Pool({
+  user: "",
+  password: "",
+  host: "local host",
+  database: "employees_db",
+});
 
-pool.connect();
+pool.connect((err) => {
+    if (err) {
+        console.error('Error connecting to emplyees_db', err.message);
+        return;
+    }
+    console.log('Connected to employees_db');
+});
