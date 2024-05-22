@@ -140,18 +140,35 @@ function addDepartment() {
 
 // Add a Role function
 function addRole() {
-  inquirer.prompt({
-    name: "tile",
-    type: "input",
-    message: "Enter a title for new role.",
-  }{
-    name: "salary",
-    type: "input",
-    message: "Enter a salary for new role."
-  })
-  .then((answer) => {
-    const psql = "INSERT INTO role (name)"
-  })
+  inquirer
+    .prompt([
+      {
+        name: "title",
+        type: "input",
+        message: "Enter a title for new role.",
+      },
+      {
+        name: "salary",
+        type: "input",
+        message: "Enter a salary for new role.",
+      },
+      {
+        name: "department_id",
+        type: "input",
+        message: "Enter the department ID.",
+      },
+    ])
+    .then((answer) => {
+      const psql =
+        "INSERT INTO role (title, salary, department_id) VALUES ($1)";
+      const values = [answer.title, answer.salary, answer.department_id];
+
+      pool.query(psql, values, (err, res) => {
+        if (err) {
+            console.error('Error executing query', err.message);
+        } else console.log(`New role ${answer.title}, ${answer.salary}, ${answer.department_id} added successfully`)
+      })
+    });
 }
 
 function addEmployee() {}
