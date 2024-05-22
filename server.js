@@ -71,8 +71,7 @@ function mainMenu() {
           break;
         case "Quit":
           console.log("Bye!");
-          pool.exit();
-          break;
+          process.exit();
         default:
           console.log("Invalid");
           mainMenu();
@@ -82,7 +81,7 @@ function mainMenu() {
 
 // View All Deparments Function
 function viewDepartments() {
-  pool.query('SELECT * FROM department', (err, res) => {
+  pool.query('SELECT department_name LEFT JOIN role ON department_id ORDER BY departmentid ASC', (err, res) => {
     if (err) {
       console.error("Error executing query", err.message);
       return mainMenu();
@@ -117,7 +116,17 @@ function viewEmployees() {
 }
 
 // Add a Department function
-function addDepartment() {}
+function addDepartment() {
+    inquirer
+    .prompt({
+        name: "newDepartment",
+        type: "input",
+        message: "Enter the new department name"
+    })
+    .then((answer) => {
+        pool.query
+    })
+}
 
 function addRole() {}
 
