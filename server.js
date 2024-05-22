@@ -1,6 +1,7 @@
 const express = require("express");
 const inquirer = require("inquirer");
 const { Pool } = require("pg");
+require('dotenv').config();
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -10,12 +11,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 const pool = new Pool({
-  user: "",
-  password: "",
-  host: "localhost",
-  database: "employees_db",
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
 });
 
+// Connect to pool and start main menu
 pool.connect((err) => {
   if (err) {
     console.error("Error connecting to emplyees_db", err.message);
@@ -25,6 +27,7 @@ pool.connect((err) => {
   mainMenu();
 });
 
+// Main menu function and choices
 function mainMenu() {
   inquirer
     .prompt({
