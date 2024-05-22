@@ -12,7 +12,7 @@ app.use(express.json());
 const pool = new Pool({
   user: "",
   password: "",
-  host: "local host",
+  host: "localhost",
   database: "employees_db",
 });
 
@@ -22,6 +22,7 @@ pool.connect((err) => {
     return;
   }
   console.log("Connected to employees_db");
+  mainMenu();
 });
 
 function mainMenu() {
