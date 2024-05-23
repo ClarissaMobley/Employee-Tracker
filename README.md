@@ -20,7 +20,7 @@ This application is a CLI employee tracker that allows you to view and manage th
 
 ## Screenshot
 
-  ![screenshotTask](./assets/images/Screenshot%202024-05-23%20at%201.10.36 PM.png)
+  ![screenshotTask](./assets/images/Screenshot%202024-05-23%20at%201.58.03 PM.png)
 
 ## Built With
 - ![image](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
