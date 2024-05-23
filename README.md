@@ -11,7 +11,6 @@ This application is a CLI employee tracker that allows you to view and manage th
 - [Screenshot](#screenshot)
 - [Built With](#built-with)
 - [Installation](#installation)
-- [Link](#link)
 - [Usage](#usage)
 - [Screen Recording](#screen-recording)
 - [License](#license)
@@ -42,7 +41,11 @@ To use this application, run the following command: npm start. This will start t
 
 ## Screen Recording
 
-![Gif](./assets/images/CPT2405151941-1108x501.gif)
+
+
+https://github.com/ClarissaMobley/Employee-Tracker/assets/159193547/5c3ce668-baf7-4144-82f5-1b47a9fd2296
+
+[Video Link](https://drive.google.com/file/d/10SOho3aOOa3yoGllRG6FJNUAeog1jhi1/view?usp=sharing)
 
 ## License
 
