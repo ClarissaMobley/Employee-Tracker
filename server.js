@@ -140,8 +140,8 @@ function addDepartment() {
 
 // Add a Role function
 async function addRole() {
-  const { rows } = await pool.query('SELECT * FROM department')
-  const dptArray = rows.map(dpt => ({ name: dpt.name, value: dpt.id }))
+  const { rows } = await pool.query("SELECT * FROM department");
+  const dptArray = rows.map((dpt) => ({ name: dpt.name, value: dpt.id }));
   inquirer
     .prompt([
       {
@@ -185,35 +185,41 @@ async function addRole() {
 
 // Add an Employee function
 async function addEmployee() {
-  const { rows: roles } = await pool.query('SELECT * FROM role')
-  const { rows: managers } = await pool.query('SELECT * FROM employee')
-  const rolesArray = roles.map( role => ({ name: role.title, value: role.id }))
-  const manArray = managers.map( manager => ({ name: `${manager.first_name} ${manager.last_name}`, value: manager.id }))
-  inquirer.prompt([
-    {
-      name: "firstName",
-      type: "input",
-      message: "Enter new employee's first name:",
-    },
-    {
-      name: "lastName",
-      type: "input",
-      message: "Enter new employee's last name:",
-    },
-    {
-      name: "role",
-      type: "list",
-      message: "Select new employee's role:",
-      choices: rolesArray,
-    },
-    {
-      name: "manager",
-      type: "list",
-      message: "Who is the manager:",
-      choices: manArray,
-
-
-    }])
+  const { rows: roles } = await pool.query("SELECT * FROM role");
+  const { rows: managers } = await pool.query("SELECT * FROM employee");
+  const rolesArray = roles.map((role) => ({
+    name: role.title,
+    value: role.id,
+  }));
+  const manArray = managers.map((manager) => ({
+    name: `${manager.first_name} ${manager.last_name}`,
+    value: manager.id,
+  }));
+  inquirer
+    .prompt([
+      {
+        name: "firstName",
+        type: "input",
+        message: "Enter new employee's first name:",
+      },
+      {
+        name: "lastName",
+        type: "input",
+        message: "Enter new employee's last name:",
+      },
+      {
+        name: "role",
+        type: "list",
+        message: "Select new employee's role:",
+        choices: rolesArray,
+      },
+      {
+        name: "manager",
+        type: "list",
+        message: "Who is the manager:",
+        choices: manArray,
+      },
+    ])
     .then((answer) => {
       const psql =
         "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)";
@@ -234,50 +240,52 @@ async function addEmployee() {
         }
         mainMenu();
       });
-    })
+    });
 }
 
+// Update an employee function
 async function updateEmployee() {
-  const { rows: roles } = await pool.query('SELECT * FROM role')
-  const { rows: employee } = await pool.query('SELECT * FROM employee')
-  const rolesArray = roles.map( role => ({ name: role.title, value: role.id }))
-  const empArray = employee.map( emp => ({ name: `${emp.first_name} ${emp.last_name}`, value: emp.id }))
+  const { rows: roles } = await pool.query("SELECT * FROM role");
+  const { rows: employee } = await pool.query("SELECT * FROM employee");
+  const rolesArray = roles.map((role) => ({
+    name: role.title,
+    value: role.id,
+  }));
+  const empArray = employee.map((emp) => ({
+    name: `${emp.first_name} ${emp.last_name}`,
+    value: emp.id,
+  }));
 
   inquirer
-  .prompt ([
-    {
-      name: "employee",
-      type: "list",
-      message: "What employee do you want to update:",
-      choices: empArray
-    },
-    {
-      name: "roles",
-      type: "list",
-      message: "What role are you updating the employee?",
-      choices: rolesArray
-    }
-  ])
-  .then((answer) => {
-    const psql =
-      "UPDATE employee SET role_id = $1 WHERE id = $2";
-    const values = [
-      answer.roles,
-      answer.employee
-    ];
+    .prompt([
+      {
+        name: "employee",
+        type: "list",
+        message: "What employee do you want to update:",
+        choices: empArray,
+      },
+      {
+        name: "roles",
+        type: "list",
+        message: "What role do want the employee to have?",
+        choices: rolesArray,
+      },
+    ])
+    .then((answer) => {
+      const psql = "UPDATE employee SET role_id = $1 WHERE id = $2";
+      const values = [answer.roles, answer.employee];
 
-    pool.query(psql, values, (err) => {
-      if (err) {
-        console.error("Error executing query", err.message);
-      } else {
-        console.log(
-          `Employee has been updated successfully`
-        );
-      }
-      mainMenu();
+      pool.query(psql, values, (err) => {
+        if (err) {
+          console.error("Error executing query", err.message);
+        } else {
+          console.log(`Employee has been updated successfully`);
+        }
+        mainMenu();
+      });
     });
-  })
 }
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
