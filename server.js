@@ -156,7 +156,7 @@ function addRole() {
         name: "department",
         type: "list",
         message: "Select the department:",
-        choices: results.rows.map((dept) => ({ name: dept.name, value: dept.id })),
+        choices: [""],
       },
     ])
     .then((answer) => {
@@ -168,17 +168,18 @@ function addRole() {
         answer.department,
       ];
 
-    pool.query(psql, values, (err) => {
+      pool.query(psql, values, (err) => {
         if (err) {
-            console.error("Error executing query", err.message);
+          console.error("Error executing query", err.message);
         } else {
-            console.log(
-                `New role ${answer.title}, ${answer.salary}, ${answer.department_id} added successfully`
-            );
+          console.log(
+            `New role ${answer.title}, ${answer.salary}, ${answer.department} added successfully`
+          );
         }
         mainMenu();
+      });
     });
-})}
+}
 
 // Add an Employee function
 function addEmployee() {
@@ -197,39 +198,39 @@ function addEmployee() {
       name: "role",
       type: "input",
       message: "Select new employee's role:",
-      choices: roleResults.rows.map(role => ({ name: role.title, value: role.id }))
+      choices: [""],
     },
     {
       name: "manager",
       type: "list",
       message: "Who is the manager:",
-                choices: roleResults.rows.map(role => ({ name: role.title, value: role.id }))
-            }
-            .then((answer) => {
-                const psql =
-                    "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)";
-                const values = [
-                    answer.firstName,
-                    answer.lastName,
-                    answer.role,
-                    answer.manager,
-                ];
+      choices: [""],
+    }.then((answer) => {
+      const psql =
+        "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)";
+      const values = [
+        answer.firstName,
+        answer.lastName,
+        answer.role,
+        answer.manager,
+      ];
 
-                pool.query(psql, values, (err) => {
-                    if (err) {
-                        console.error("Error executing query", err.message);
-                    } else {
-                        console.log(
-                            `New employee ${answer.firstName} ${answer.lastName} added successfully`
-                        );
-                    }
-                    mainMenu();
-                });
-            })
-    ])};
+      pool.query(psql, values, (err) => {
+        if (err) {
+          console.error("Error executing query", err.message);
+        } else {
+          console.log(
+            `New employee ${answer.firstName} ${answer.lastName} added successfully`
+          );
+        }
+        mainMenu();
+      });
+    }),
+  ]);
+}
 
-    function updateEmployee() {}
+function updateEmployee() {}
 
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
