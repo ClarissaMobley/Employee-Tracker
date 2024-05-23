@@ -93,19 +93,22 @@ function viewDepartments() {
 
 // View All Roles Departments
 function viewRoles() {
-  pool.query("SELECT * FROM role", (err, res) => {
-    if (err) {
-      console.error("Error executing query", err.message);
-      return mainMenu();
+  pool.query(
+    "SELECT role.*, department.name AS department FROM role JOIN department ON role.department_id = department.id",
+    (err, res) => {
+      if (err) {
+        console.error("Error executing query", err.message);
+        return mainMenu();
+      }
+      console.table(res.rows);
+      mainMenu();
     }
-    console.table(res.rows);
-    mainMenu();
-  });
+  );
 }
 
 // View All Employees Function
 function viewEmployees() {
-  pool.query("SELECT * FROM employee", (err, res) => {
+  pool.query("SELECT employee.*, role.title AS role, department.name AS department FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id", (err, res) => {
     if (err) {
       console.error("Error executing query", err.message);
       return mainMenu();
@@ -285,7 +288,6 @@ async function updateEmployee() {
       });
     });
 }
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
